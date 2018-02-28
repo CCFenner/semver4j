@@ -8,7 +8,9 @@ import org.junit.runners.JUnit4;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyZeroInteractions;
@@ -199,6 +201,42 @@ public class RequirementTest {
         hyphenTest("1.2.3", "2.x.x", "1.2.3", "3.0.0", true);
         hyphenTest("1.2.3", "2.*", "1.2.3", "3.0.0", true);
         hyphenTest("1.2.3", "2.*.*", "1.2.3", "3.0.0", true);
+    }
+
+    @Test public void buildNPM_timestamp_and_commitid1() {
+        String version = "0.4.1+20180228-132125-ab01e59f31669849d8131446b907c2d23c11a6b8";
+        Requirement req = null;
+        try{
+            req = Requirement.buildNPM(version);
+        }catch(NullPointerException npe){
+            fail(npe.getMessage());
+        }finally{
+            assertNotNull(req);
+        }
+    }
+
+    @Test public void buildNPM_timestamp_and_commitid2() {
+        String version = "0.4.1-20180228.132125+ab01e59f31669849d8131446b907c2d23c11a6b8";
+        Requirement req = null;
+        try{
+            req = Requirement.buildNPM(version);
+        }catch(NullPointerException npe){
+            fail(npe.getMessage());
+        }finally{
+            assertNotNull(req);
+        }
+    }
+
+    @Test public void buildNPM_timestamp_and_commitid3() {
+        String version = "0.4.1-20180228-132125+ab01e59f31669849d8131446b907c2d23c11a6b8";
+        Requirement req = null;
+        try{
+            req = Requirement.buildNPM(version);
+        }catch(NullPointerException npe){
+            fail(npe.getMessage());
+        }finally{
+            assertNotNull(req);
+        }
     }
 
     @Test public void buildNPM_with_hyphen() {
